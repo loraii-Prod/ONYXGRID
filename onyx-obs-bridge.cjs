@@ -1,0 +1,10 @@
+// Run locally on Windows: npm install ws && set ONYX_REMOTE_URL=... && set ONYX_BRIDGE_KEY=... && node onyx-obs-bridge.cjs
+const WebSocket=require('ws');const crypto=require('node:crypto');
+const remote=(process.env.ONYX_REMOTE_URL||'').replace(/\/$/,'');const key=process.env.ONYX_BRIDGE_KEY||'';
+const obsURL=process.env.OBS_WS_URL||'ws://127.0.0.1:4455';const password=process.env.OBS_WS_PASSWORD||'';
+if(!/^https:\/\//.test(remote)||!key){console.error('ONYX_REMOTE_URL (https) and ONYX_BRIDGE_KEY required');process.exit(1)}
+let ws=null,ready=false,requestId=0,pending=new Map();
+const hash=s=>crypto.createHash('sha256').update(s).digest('base64');
+function connect(){ws=new WebSocket(obsURL);ready=false;ws.on('message',raw=>{try{const m=JSON.parse(raw);if(m.op===0){const d=m.d;const auth=d.authentication?{authentication:hash(hash(password+d.authentication.salt)+d.authentication.challenge)}:{};ws.send(JSON.stringify({op:1,d:{rpcVersion:1,...auth}}))}else if(m.op===2){ready=true;console.log('OBS connected')}else if(m.op===7){const p=pending.get(m.d.requestId);if(p){pending.delete(m.d.requestId);p(m.d.requestStatus)}}}catch(e){console.error(e.message)}});ws.on('error',e=>console.error('OBS:',e.message));ws.on('close',()=>{ready=false;setTimeout(connect,3000)})}
+function send(type,data){return new Promise(resolve=>{if(!ready)return resolve({result:false,comment:'OBS offline'});const id=String(++requestId);pending.set(id,resolve);ws.send(JSON.stringify({op:6,d:{requestType:type,requestId:id,requestData:data}}));setTimeout(()=>{if(pending.has(id)){pending.delete(id);resolve({result:false,comment:'Timeout'})}},5000)})}
+const headers={'x-onyx-bridge-key':key};async function poll(){try{const r=await fetch(remote+'/api/bridge/poll',{headers});if(!r.ok)throw Error('Bridge HTTP '+r.status);const data=await r.json();for(const c of data.commands||[]){const result=await send(c.requestType,c.requestData);console.log('OBS',c.id,c.requestType,result.result?'OK':result.comment||'Failed')}}catch(e){console.error('Remote:',e.message)}finally{setTimeout(poll,1500)}}connect();poll();
