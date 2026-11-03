@@ -14,7 +14,7 @@ const base=JSON.parse(fs.readFileSync(path.join(ROOT,'config.json'),'utf8'));let
 const loginFails=new Map();
 const safe=s=>String(s||'').slice(0,400);
 function changeConfig(d){if(!Array.isArray(d.players)||d.players.length!==3)throw Error('Three players required');
-for(const k of ['event','stage','subtitle','mainUrl','resultPlace','resultDetail','accent'])if(typeof d[k]==='string')config[k]=safe(d[k]);
+for(const k of ['event','stage','subtitle','mainUrl','resultPlace','resultDetail','accent','selectedScene'])if(typeof d[k]==='string')config[k]=safe(d[k]);
 config.players=d.players.map(p=>({name:safe(p.name).slice(0,40),platform:['twitch','youtube','direct'].includes(p.platform)?p.platform:'twitch',channel:safe(p.channel)}));
 for(const k of ['focusIndex','timerRemaining'])if(Number.isFinite(Number(d[k])))config[k]=Math.max(0,Math.floor(Number(d[k])));
 for(const k of ['liveMode','displayMode'])if(typeof d[k]==='string')config[k]=d[k];
@@ -24,7 +24,7 @@ if(d.audioRouting&&typeof d.audioRouting==='object')config.audioRouting={...conf
 if(d.studio&&typeof d.studio==='object')config.studio={...config.studio,...d.studio};
 }
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.json':'application/json'};
-const controllers=new Set(['/','/dock.html','/director.html','/hub.html','/caster.html']);
+const controllers=new Set(['/','/remote.html','/dock.html','/director.html','/hub.html','/caster.html']);
 http.createServer(async(req,res)=>{try{
 const u=new URL(req.url,'https://'+(req.headers.host||'localhost'));const p=u.pathname;
 if(p==='/api/health')return json(res,200,{ok:true,version:'remote-beta-1',bridgeOnline:Date.now()-lastBridge<15000,queued:commands.length});
