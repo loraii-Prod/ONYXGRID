@@ -1,0 +1,79 @@
+{
+  "event": "ONYX TRACKMANIA",
+  "stage": "MATCH DAY",
+  "subtitle": "ONYX / TEAM BROADCAST",
+  "countdown": 300,
+  "timerEnd": null,
+  "timerRemaining": 300,
+  "timerRunning": false,
+  "focusIndex": 0,
+  "liveMode": "multiview",
+  "selectedScene": "starting",
+  "motion": true,
+  "displayMode": "square-fill",
+  "accent": "#efc500",
+  "resultPlace": "1ST",
+  "resultDetail": "MATCH COMPLETE",
+  "scoreboard": {
+    "enabled": false,
+    "teamA": "ONYX BLACK",
+    "teamB": "ONYX WHITE",
+    "scoreA": 0,
+    "scoreB": 0,
+    "map": "MAP 1",
+    "format": "BO3"
+  },
+  "audioRouting": {
+    "enabled": false,
+    "sources": [
+      "",
+      "",
+      ""
+    ],
+    "manual": false,
+    "manualIndex": 0
+  },
+  "studio": {
+    "casterCount": 1,
+    "casters": [
+      {
+        "name": "LORAII",
+        "role": "HOST / COMMENTATOR"
+      },
+      {
+        "name": "CASTER 02",
+        "role": "COMMENTATOR"
+      },
+      {
+        "name": "CASTER 03",
+        "role": "ANALYST"
+      }
+    ],
+    "interviewer": "LORAII",
+    "interviewerRole": "HOST",
+    "guest": "GUEST NAME",
+    "guestRole": "ONYX PLAYER",
+    "guest2": "",
+    "guest2Role": "GUEST",
+    "topic": "POST-MATCH DISCUSSION",
+    "chatLabel": "COMMUNITY / LIVE CHAT"
+  },
+  "mainUrl": "",
+  "players": [
+    {
+      "name": "POV 1",
+      "platform": "twitch",
+      "channel": ""
+    },
+    {
+      "name": "POV 2",
+      "platform": "twitch",
+      "channel": ""
+    },
+    {
+      "name": "POV 3",
+      "platform": "twitch",
+      "channel": ""
+    }
+  ]
+}
