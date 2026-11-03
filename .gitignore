@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+config.local.json
+config.user.json
+settings.local.json
+secrets.json
+credentials.json
+*.key
+*.pem
+media/*
+!media/README.txt
