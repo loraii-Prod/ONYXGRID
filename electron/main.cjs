@@ -16,7 +16,7 @@ app.whenReady().then(()=>{
  fs.mkdirSync(process.env.ONYX_DATA_DIR,{recursive:true});
  require('../local-server.cjs');
  createWindow();
- const img=nativeImage.createEmpty();
+ const img=nativeImage.createFromPath(path.join(__dirname,'../render-preview/assets/onyx-emblem.png'));
  tray=new Tray(img);
  tray.setToolTip('ONYX GRID');
  tray.setContextMenu(Menu.buildFromTemplate([
