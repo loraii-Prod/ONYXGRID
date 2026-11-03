@@ -1,0 +1,1 @@
+ONYX GRID 9.2 hosted full-design beta. Original graphics restored. Static preview only: live configuration, POV and guest control require authenticated sync service. Do not upload OBS credentials.
